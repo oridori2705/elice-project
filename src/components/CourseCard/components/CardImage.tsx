@@ -42,7 +42,10 @@ export const CardImage = ({ isLogo, imgUrl }: CardImageProps) => {
       <CardImageDiv>
         <CardImageImg
           isLogo={isLogo}
-          imgUrl={imgUrl}
+          imgUrl={
+            imgUrl ||
+            'https://academy.elice.io/static/images/courses/course_logo_default.png'
+          }
         />
       </CardImageDiv>
     </CardImageWrapperDiv>
