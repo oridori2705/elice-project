@@ -20,13 +20,14 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
 
-    "baseUrl": ".",
+    "baseUrl": "./",
     "paths": {
       "~/*": ["./src/*"],
       "node_modules/*": ["./node_modules/*"]
-    }
+    },
+
+    "jsxImportSource": "@emotion/react"
   },
-  "jsxImportSource": "@emotion/react",
   "include": ["src"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
