@@ -22,7 +22,7 @@
 ## 🤔해결 방식
 
 <details>
-<summary>1. 개발 환경 세팅하기</summary>
+<summary>⚙️1. 개발 환경 세팅하기</summary>
 
 ## 🛠️ 개발 환경 세팅(Vite, Eslint, Prettier, Emotion)
 
@@ -32,3 +32,31 @@
 - 예제 사이트를 모방해 프로젝트 완성을 위해 폰트 설치
 
 해당 과정에서 Eslint와 Prettier 설정에 대해 [더 깊이 알게 되었습니다.](https://ydoag2003.tistory.com/493)
+
+</details>
+<details>
+<summary>✨2. CourseCard 컴포넌트 구현하기</summary>
+
+## 🛠️ CourseCard 컴포넌트 구현
+
+- `합성 컴포넌트 패턴`을 이용해 CourseCard 컴포넌트 구현
+  - 이후 난이도, 수업 유형, 기간을 쉽게 추가할 수 있도록 하기 위함
+  - 재사용성, 유연성 높이기 위해 해당 패턴 사용
+- 응답 데이터 타입 정의
+- 폰트 변경
+- `enroll_type`과 `is_free`를 이용해 `무료`, `가격`, `관리자 등록` 표시 (enroll_type이 5인 경우 - 관리자 등록)
+- `tags`안에 `tag_type: 3` 값이 없다면 `미분류`로 표시
+- 각각 받아오는 데이터가 다른 경우가 있어 `옵셔널 타입을 부분 구성`
+- `filter`를 이용한 `타입 좁히기`를 처음 활용해 보았음(분류 데이터만을 타입으로 갖기 위해)
+
+```
+  function isCardTagNameType(value: TagName): value is CardTagNameType {
+    return [
+      'programmer',
+      'dataScientist',
+      'webDeveloper',
+      'aiml',
+      'algorithm'
+    ].includes(value)
+  }
+```
