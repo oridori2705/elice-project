@@ -24,7 +24,7 @@
 <details>
 <summary>⚙️1. 개발 환경 세팅하기</summary>
 
-## 🛠️ 개발 환경 세팅(Vite, Eslint, Prettier, Emotion)
+### 🛠️ 개발 환경 세팅(Vite, Eslint, Prettier, Emotion)
 
 - Vite를 사용해 빠르게 React 개발 환경 구축
 - 빠르고 안정된 개발을 위해 Eslint와 Prettier 설정
@@ -37,7 +37,7 @@
 <details>
 <summary>✨2. CourseCard 컴포넌트 구현하기</summary>
 
-## 🛠️ CourseCard 컴포넌트 구현
+### 🛠️ CourseCard 컴포넌트 구현
 
 - `합성 컴포넌트 패턴`을 이용해 CourseCard 컴포넌트 구현
   - 이후 난이도, 수업 유형, 기간을 쉽게 추가할 수 있도록 하기 위함
@@ -60,3 +60,36 @@
     ].includes(value)
   }
 ```
+
+</details>
+<details>
+<summary>✨3. CourseList 컴포넌트 구현하기 & API 데이터 활용하기 </summary>
+
+### 🛠️ CourseCard 컴포넌트 리팩토링
+
+- `CourseCard`의 Title 부분 두 줄 ellipsis 기능 수정
+- `CourseCard`의 logo이미지와 file 이미지가 모두 없을 경우를 위해 default 이미지 추가
+
+### 🛠️ CourseList 컴포넌트 구현
+
+- `CourseCard`를 나열하는 `CourseList` 컴포넌트 구현
+- grid를 이용해 반응형 디자인
+- 현재 반응형을 실제 사이트와 동일하게 구현했는데 실제 사이트는 12개의 데이터를 보여주고 있고, 요구사항은 20개의 데이터를 보여주는 것으로 되어있어 만약 3열로 된다면 하단 마지막 부분에 빈 영역이 생기고 있음
+  - 3열로 바뀌는 반응형을 제거하는 방법과 같이 추후 해결해야 하는 부분
+
+### 🛠️ 추가 컴포넌트 구현
+
+- Course 데이터가 요청 중일 경우를 위해 로딩 기능 구현 및 `Spinner` 컴포넌트 구현
+- Course 데이터의 검색 결과가 없을 경우를 위해 `NoResultsFound` 컴포넌트 구현
+- 전체 Course 데이터의 개수를 출력하는 `TotalListCount 컴포넌트` 구현
+- `CouseList`와 `TotalListCount`를 감싸주는 `CourseListContainer` 컴포넌트 구현
+
+### 🛠️ useFetchCourseList 커스텀 훅 구현
+
+- useFetchCourseList 커스텀 훅을 만들어 API 요청 로직 모듈화
+- useFetchCourseList 내에서 API요청과 관련된 useState와 useEffect를 모두 관리하고 있음
+  - 이후 필터에서의 state값이나 검색에서의 state값은 해당 훅에서 관리할 계획 - 너무 많은역할을 한다면 분리 계획도 예상
+    - useFetchCourseList 훅에서 filter값을 관리하는 useState의 set함수를 내려줘서 chip 내부에서 이벤트로 set함수를 호출하고, url을 바꿔준다.
+    - 그리고 다시 useFetchCourseList에서는 이 state변화를 감지하고 추가된 필터 값을 가공해 다시 api 요청을 해준다.
+
+</details>

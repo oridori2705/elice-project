@@ -30,6 +30,17 @@ export type CardTagNameType =
   | 'algorithm'
 
 export interface ResponseDataType {
+  _result: Result
+  courses: Course[]
+  course_count: number
+}
+
+export interface Result {
+  status: string
+  reason: string
+}
+
+export interface Course {
   id: number
   is_recommended: boolean
   is_chat_room_disabled: boolean

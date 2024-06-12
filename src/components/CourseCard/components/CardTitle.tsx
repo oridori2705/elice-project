@@ -5,17 +5,18 @@ interface CardTitleProps {
 }
 
 const CardTitleWrapperDiv = styled.div`
-  margin-bottom: 0.5rem;
-  line-height: 120%;
-  user-select: auto;
-  max-height: 3.2em;
-  overflow: hidden;
-  padding: 0;
+  display: -webkit-box;
   position: relative;
+  margin-bottom: 0.5rem;
+  overflow: hidden;
   text-overflow: ellipsis;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
   font-size: 1rem;
-  color: #222;
   font-weight: 700;
+  color: #222;
+  line-height: 1.2;
+  max-height: 3.2em;
 `
 
 export const CardTitle = ({ title }: CardTitleProps) => {
