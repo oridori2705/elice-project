@@ -59,7 +59,12 @@ module.exports = {
     ],
     'react/prop-types': 0,
     'react-hooks/rules-of-hooks': 'error',
-    'prettier/prettier': 'warn',
+    'prettier/prettier': [
+      'warn',
+      {
+        endOfLine: 'auto'
+      }
+    ],
     'no-console': [
       'error',
       {
