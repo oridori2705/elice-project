@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 
 import { fetchCourseList } from '~/api'
@@ -20,6 +20,11 @@ const useFetchCourseList = () => {
   )
 
   const [offset, setOffset] = useState(1)
+  const scrollToStartRef = useRef<HTMLDivElement | null>(null)
+
+  useLayoutEffect(() => {
+    scrollToStartRef.current?.scrollIntoView()
+  }, [offset])
 
   useEffect(() => {
     const loadCourseList = async () => {
@@ -49,7 +54,15 @@ const useFetchCourseList = () => {
     setOffset(1)
   }, [filters])
 
-  return { courseList, isLoading, error, offset, setFilters, setOffset }
+  return {
+    courseList,
+    isLoading,
+    error,
+    offset,
+    scrollToStartRef,
+    setFilters,
+    setOffset
+  }
 }
 
 export default useFetchCourseList

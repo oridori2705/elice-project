@@ -17,8 +17,15 @@ const RootDiv = styled.div`
 `
 
 function App() {
-  const { courseList, isLoading, error, offset, setOffset, setFilters } =
-    useFetchCourseList()
+  const {
+    courseList,
+    isLoading,
+    error,
+    offset,
+    scrollToStartRef,
+    setOffset,
+    setFilters
+  } = useFetchCourseList()
 
   const renderContent = () => {
     if (error) {
@@ -41,6 +48,7 @@ function App() {
 
   return (
     <RootDiv>
+      <div ref={scrollToStartRef} />
       <SearchBar setFilter={setFilters} />
       <FilterTable setFilters={setFilters} />
       {renderContent()}
