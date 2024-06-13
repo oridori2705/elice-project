@@ -1,3 +1,4 @@
+import { Dispatch, SetStateAction } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
 import { Filters } from '~/constants/filter'
@@ -7,7 +8,7 @@ import { updateQueryParam } from '~/utils'
 import { ChipButton } from './styled'
 
 interface ChipProps {
-  setFilters: (filters: Filters | ((prevFilters: Filters) => Filters)) => void
+  setFilters: Dispatch<SetStateAction<Filters>>
   innerText: string
   filterType: FilterKeys
   filterId: number
