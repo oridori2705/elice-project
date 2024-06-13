@@ -35,6 +35,7 @@ function App() {
         <>
           <CourseListContainer courseList={courseList} />
           <Pagination
+            scrollToStartRef={scrollToStartRef}
             currentOffset={offset}
             totalItems={courseList?.course_count}
             setOffset={setOffset}

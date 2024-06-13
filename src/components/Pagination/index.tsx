@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction } from 'react'
+import { Dispatch, MutableRefObject, SetStateAction } from 'react'
 
 import {
   PaginationContainerDiv,
@@ -14,6 +14,7 @@ interface PaginationProps {
   totalItems: number
   itemsPerPage?: number
   currentOffset: number
+  scrollToStartRef: MutableRefObject<HTMLDivElement | null>
   setOffset: Dispatch<SetStateAction<number>>
 }
 interface HandlePageChangeParams {
@@ -25,6 +26,7 @@ const Pagination = ({
   totalItems,
   itemsPerPage = 20,
   currentOffset,
+  scrollToStartRef,
   setOffset
 }: PaginationProps) => {
   const handlePageChange = ({
@@ -32,6 +34,7 @@ const Pagination = ({
     isActive = true
   }: HandlePageChangeParams) => {
     if (!isActive) return
+    scrollToStartRef.current?.scrollIntoView()
     setOffset(currentPage)
   }
 
