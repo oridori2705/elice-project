@@ -3,6 +3,7 @@ import styled from '@emotion/styled'
 import CourseListContainer from './components/CourseListContainer'
 import FilterTable from './components/FilterTable'
 import NoResultsFound from './components/NoResultsFound'
+import Pagination from './components/Pagination'
 import SearchBar from './components/SearchBar'
 import Spinner from './components/Spinner'
 import useFetchCourseList from './hooks/useFetchCourseList'
@@ -16,13 +17,23 @@ const RootDiv = styled.div`
 `
 
 function App() {
-  const { courseList, isLoading, error, setFilters } = useFetchCourseList()
+  const { courseList, isLoading, error, offset, setOffset, setFilters } =
+    useFetchCourseList()
 
   const renderContent = () => {
     if (error) {
       return <div>{error}</div>
     } else if (courseList && courseList.courses.length > 0) {
-      return <CourseListContainer courseList={courseList} />
+      return (
+        <>
+          <CourseListContainer courseList={courseList} />
+          <Pagination
+            currentOffset={offset}
+            totalItems={courseList?.course_count}
+            setOffset={setOffset}
+          />
+        </>
+      )
     } else {
       return <NoResultsFound />
     }
