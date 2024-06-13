@@ -21,7 +21,6 @@ const Chip = ({
   filterId,
   isClicked
 }: ChipProps) => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [searchParams, setSearchParams] = useSearchParams()
 
   const handleButtonClick = (type: keyof Filters, value: number) => {
