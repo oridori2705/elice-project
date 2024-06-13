@@ -29,6 +29,14 @@ export type CardTagNameType =
   | 'aiml'
   | 'algorithm'
 
+export type FilterKeys =
+  | 'category'
+  | 'courseType'
+  | 'format'
+  | 'level'
+  | 'price'
+  | 'programmingLanguage'
+
 export interface ResponseDataType {
   _result: Result
   courses: Course[]
