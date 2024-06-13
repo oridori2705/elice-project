@@ -1,4 +1,5 @@
 import { ChangeEvent } from 'react'
+import { useSearchParams } from 'react-router-dom'
 
 import { Filters } from '~/constants/filter'
 import useDebounce from '~/hooks/useDebounce'
@@ -16,6 +17,9 @@ interface SearchBarProps {
 }
 
 const SearchBar = ({ setFilter }: SearchBarProps) => {
+  const [searchParams, setSearchParams] = useSearchParams()
+  const keyword = searchParams.get('keyword') || ''
+
   const handleChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value
 
@@ -23,6 +27,8 @@ const SearchBar = ({ setFilter }: SearchBarProps) => {
       const result = { ...prevState, ['keyword']: query }
       return result
     })
+    searchParams.set('keyword', query)
+    setSearchParams(searchParams)
   }
   const debouncedOnChange = useDebounce<typeof handleChange>(handleChange, 500)
 
@@ -48,6 +54,7 @@ const SearchBar = ({ setFilter }: SearchBarProps) => {
       <SearchInputDiv>
         <SearchBarInput
           placeholder="배우고 싶은 언어, 기술을 검색해 보세요"
+          defaultValue={keyword}
           onChange={debouncedOnChange}
         />
       </SearchInputDiv>
