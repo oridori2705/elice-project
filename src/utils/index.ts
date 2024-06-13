@@ -11,6 +11,7 @@ export const parseFiltersFromQuery = (search: string): Filters => {
   const params = new URLSearchParams(search)
 
   return {
+    keyword: params.get('keyword') || '',
     category: params.getAll('category').map(Number),
     courseType: params.getAll('courseType').map(Number),
     format: params.getAll('format').map(Number),
@@ -38,13 +39,14 @@ export const generateAPIParams = (
     ]
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  Object.entries(filterData).forEach(([_, values]) => {
+  Object.entries(filterData).forEach(([key, values]) => {
     if (Array.isArray(values) && values.length > 0) {
       const orCondition = values.map(
         (value: number) => categoriesObject[value].data as Or
       )
       apiParams['$and'].push({ $or: orCondition.flat() })
+    } else if (key === 'keyword') {
+      apiParams['$and'][0].title = `%${values}%`
     }
   })
 

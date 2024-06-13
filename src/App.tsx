@@ -3,6 +3,7 @@ import styled from '@emotion/styled'
 import CourseListContainer from './components/CourseListContainer'
 import FilterTable from './components/FilterTable'
 import NoResultsFound from './components/NoResultsFound'
+import SearchBar from './components/SearchBar'
 import Spinner from './components/Spinner'
 import useFetchCourseList from './hooks/useFetchCourseList'
 
@@ -18,9 +19,7 @@ function App() {
   const { courseList, isLoading, error, setFilters } = useFetchCourseList()
 
   const renderContent = () => {
-    if (isLoading) {
-      return <Spinner />
-    } else if (error) {
+    if (error) {
       return <div>{error}</div>
     } else if (courseList && courseList.courses.length > 0) {
       return <CourseListContainer courseList={courseList} />
@@ -31,8 +30,10 @@ function App() {
 
   return (
     <RootDiv>
+      <SearchBar setFilter={setFilters} />
       <FilterTable setFilters={setFilters} />
       {renderContent()}
+      {isLoading && <Spinner />}
     </RootDiv>
   )
 }

@@ -8,6 +8,7 @@ export interface Filters {
   level: number[]
   price: number[]
   programmingLanguage: number[]
+  keyword?: string
 }
 
 export const filtersInitialState: Filters = {
