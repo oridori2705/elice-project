@@ -1,22 +1,21 @@
 import styled from '@emotion/styled'
 
 import CourseListContainer from './components/CourseListContainer'
+import FilterTable from './components/FilterTable'
 import NoResultsFound from './components/NoResultsFound'
 import Spinner from './components/Spinner'
 import useFetchCourseList from './hooks/useFetchCourseList'
 
 const RootDiv = styled.div`
   max-width: 1280px;
-  padding-left: 24px;
-  padding-right: 24px;
-  margin-left: auto;
-  margin-right: auto;
+  min-height: 1350px;
+  margin: 0 auto;
   display: block;
   padding: 3.5rem 16px;
 `
 
 function App() {
-  const { courseList, isLoading, error } = useFetchCourseList()
+  const { courseList, isLoading, error, setFilters } = useFetchCourseList()
 
   const renderContent = () => {
     if (isLoading) {
@@ -30,7 +29,12 @@ function App() {
     }
   }
 
-  return <RootDiv>{renderContent()}</RootDiv>
+  return (
+    <RootDiv>
+      <FilterTable setFilters={setFilters} />
+      {renderContent()}
+    </RootDiv>
+  )
 }
 
 export default App

@@ -1,69 +1,40 @@
 import { useEffect, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 
-import { And, ParameterRoot } from '~/types/api'
+import { fetchCourseList } from '~/api'
+import { categoriesObject } from '~/constants/course'
+import {
+  DEFAULT_COUNT,
+  DEFAULT_OFFSET,
+  Filters,
+  filtersInitialState
+} from '~/constants/filter'
 import { ResponseDataType } from '~/types/data'
-
-const DefaultFilterConditions: ParameterRoot = {
-  $and: [
-    { $or: [{ status: 2 }, { status: 3 }, { status: 4 }] },
-    { is_datetime_enrollable: true }
-  ]
-}
-
-//TODO : 이후 react-router-dom으로 파라미터를 가져와서 filterConditions값과 offset값을 변경
-const filterConditions: And[] = [
-  {
-    title: '%%'
-  },
-  {
-    $or: []
-  },
-  {
-    $or: [
-      {
-        tag_id: 25
-      },
-      {
-        tag_id: 10
-      }
-    ]
-  }
-]
-
-const DEFAULT_COUNT = 20
-const DEFAULT_OFFSET = 20
-
-const mergeFilterConditions = (newConditions: And[]) => {
-  return {
-    $and: [...DefaultFilterConditions.$and, ...newConditions]
-  }
-}
+import { generateAPIParams, parseFiltersFromQuery } from '~/utils'
 
 const useFetchCourseList = () => {
+  const location = useLocation()
   const [courseList, setCourseList] = useState<ResponseDataType | null>(null)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  useEffect(() => {
-    const fetchCourseList = async (filterConditions: And[], offset: number) => {
-      const baseURL = 'https://api-rest.elice.io/org/academy/course/list/'
-      const params = new URLSearchParams({
-        filter_conditions: JSON.stringify(
-          mergeFilterConditions(filterConditions)
-        ),
-        offset: offset.toString(),
-        count: DEFAULT_COUNT.toString()
-      })
+  const [filters, setFilters] = useState<Filters>(() =>
+    location.search
+      ? parseFiltersFromQuery(location.search)
+      : filtersInitialState
+  )
 
-      const url = `${baseURL}?${params.toString()}`
+  useEffect(() => {
+    const loadCourseList = async () => {
+      const apiParams = generateAPIParams(filters, categoriesObject)
 
       try {
         setIsLoading(true)
-        const response = await fetch(url)
-        if (!response.ok) {
-          throw new Error('네트워크 응답이 올바르지 않습니다.')
-        }
-        const data: ResponseDataType = await response.json()
+        const data = await fetchCourseList(
+          apiParams,
+          DEFAULT_OFFSET,
+          DEFAULT_COUNT
+        )
         setCourseList(data)
       } catch (error) {
         console.error('Fetch 에러:', error)
@@ -74,10 +45,10 @@ const useFetchCourseList = () => {
       }
     }
 
-    fetchCourseList(filterConditions, DEFAULT_OFFSET)
-  }, [])
+    loadCourseList()
+  }, [filters])
 
-  return { courseList, isLoading, error }
+  return { courseList, isLoading, error, setFilters }
 }
 
 export default useFetchCourseList
