@@ -21,11 +21,11 @@ const Chip = ({
   filterId,
   isClicked
 }: ChipProps) => {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [searchParams, setSearchParams] = useSearchParams()
 
   const handleButtonClick = (type: keyof Filters, value: number) => {
     setFilters(prevState => {
+      if (type === 'keyword') return prevState
       const newValues = prevState[type].includes(value)
         ? prevState[type].filter(item => item !== value)
         : [...prevState[type], value]
