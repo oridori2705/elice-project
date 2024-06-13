@@ -49,7 +49,7 @@ function App() {
   return (
     <RootDiv>
       <div ref={scrollToStartRef} />
-      <SearchBar setFilter={setFilters} />
+      <SearchBar setFilters={setFilters} />
       <FilterTable setFilters={setFilters} />
       {renderContent()}
       {isLoading && <Spinner />}
