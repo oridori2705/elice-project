@@ -22,7 +22,9 @@
 ## 🤔해결 방식
 
 <details>
-<summary>⚙️1. 개발 환경 세팅하기</summary>
+<summary style="font-size: 17px; font-weight: 600; background-color: rgba(115, 83, 234,0.2);">⚙️1. 개발 환경 세팅하기</summary>
+
+- 🔗[PR](https://github.com/oridori2705/elice-project/pull/2)
 
 ### 🛠️ 개발 환경 세팅(Vite, Eslint, Prettier, Emotion)
 
@@ -34,8 +36,11 @@
 해당 과정에서 Eslint와 Prettier 설정에 대해 [더 깊이 알게 되었습니다.](https://ydoag2003.tistory.com/493)
 
 </details>
+
 <details>
-<summary>✨2. CourseCard 컴포넌트 구현하기</summary>
+<summary style="font-size: 17px; font-weight: 600; background-color: rgba(115, 83, 234,0.2);">✨2. CourseCard 컴포넌트 구현하기</summary>
+
+- 🔗[PR](https://github.com/oridori2705/elice-project/pull/6)
 
 ### 🛠️ CourseCard 컴포넌트 구현
 
@@ -62,8 +67,11 @@
 ```
 
 </details>
+
 <details>
-<summary>✨3. CourseList 컴포넌트 구현하기 & API 데이터 활용하기 </summary>
+<summary style="font-size: 17px; font-weight: 600; background-color: rgba(115, 83, 234,0.2);">✨3. CourseList 컴포넌트 구현하기 & API 데이터 활용하기 </summary>
+
+- 🔗[PR](https://github.com/oridori2705/elice-project/pull/8)
 
 ### 🛠️ CourseCard 컴포넌트 리팩토링
 
@@ -91,5 +99,80 @@
   - 이후 필터에서의 state값이나 검색에서의 state값은 해당 훅에서 관리할 계획 - 너무 많은역할을 한다면 분리 계획도 예상
     - useFetchCourseList 훅에서 filter값을 관리하는 useState의 set함수를 내려줘서 chip 내부에서 이벤트로 set함수를 호출하고, url을 바꿔준다.
     - 그리고 다시 useFetchCourseList에서는 이 state변화를 감지하고 추가된 필터 값을 가공해 다시 api 요청을 해준다.
+
+</details>
+
+<details>
+<summary style="font-size: 17px; font-weight: 600; background-color: rgba(115, 83, 234,0.2);">✨4. 필터링을 위한 Chip 버튼과 필터기능, url query 저장 기능 구현 </summary>
+
+- 🔗[PR](https://github.com/oridori2705/elice-project/pull/9)
+
+### 🛠️Chip 컴포넌트 구현
+
+- 클릭 시 지정된 `filter_conditions`값을 포함해서 API 요청
+- 클릭 시 현재 `url query`를 지정된 `query`로 변경
+- 새로고침시 현재 `url query`를 이용해 이전 필터 정보 불러오는 기능 구현
+- Chip 버튼은 복수 선택이 가능
+
+-> Chip 버튼들은 `미리 지정된 상수 값`으로 나열되었습니다.
+
+```
+ 유형: [
+    {
+      id: 1,
+      name: '과목',
+      type: 'courseType',
+      data: [{ course_type: 0 }, { course_type: 2 }]
+    },
+    {
+      id: 2,
+      name: '챌린지',
+      type: 'courseType',
+      data: [{ course_type: 1 }]
+    },
+```
+
+### 🛠️useFetchCourseList 리팩토링
+
+- 현재 filter된 값을 useState로 관리
+  - 초기 값은 `현재 url`을 변환해서 `지정된 객체 값`으로 저장
+- 저장한 filter값이 변하면 변경된 파라미터로 API 요청
+- filter에는 임으로 지정된 Id값으로 관리되는데 미리 정의한 상수 객체를 이용해 대응되는 파라미터 값으로 변환
+
+```
+6: {
+    id: 6,
+    name: '프로그래밍 기초',
+    type: 'category',
+    data: [{ tag_id: 12 }] // 파라미터에 필요한 값
+  },
+```
+
+### 🚧 특이 사항
+
+- `react-router-dom` 라이브러리 설치
+
+  - `useSearchParam`s와 `useLocation` 사용을 위해 설치
+  - 해당 라이브러리로 이후 카드 클릭 시 상세 정보 페이지도 구현 가능 예상
+
+- 타입단언 `as` 키워드가 두 곳에서 사용됨
+
+  - 이후 리팩토링 계획
+
+- 카드요소가 바뀔 때 로딩 -> 카드 요소가 나타나는 순서로 인해 스크롤이 사라졌다 생기는 현상이 있는데 이로 인해 요소들이 가로로 떨리는 문제
+
+  - Root 요소에 `min-height`를 부여해서 스크롤이 항상 있도록 하게 해서 문제 해결
+  - 임시로 해결한 문제이므로 이후 로딩을 스피너가 아닌 `스켈레톤 UI 방식`을 활용하는 방법으로 문제 해결 계획
+
+- 스크롤 바 스타일링 추가
+
+  - 엘리스 예제 사이트 그대로 구현
+
+- ⚠️ **API Base url은 env 파일로 분리해서 관리**
+  - 클론해서 사용시 env 추가 필요
+
+### 📜관계도 정리
+
+<img src="https://i.ibb.co/418DBWP/saf-fasfsafas.png"/>
 
 </details>
