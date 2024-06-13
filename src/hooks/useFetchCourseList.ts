@@ -1,14 +1,9 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 
 import { fetchCourseList } from '~/api'
 import { categoriesObject } from '~/constants/course'
-import {
-  DEFAULT_COUNT,
-  DEFAULT_OFFSET,
-  Filters,
-  filtersInitialState
-} from '~/constants/filter'
+import { DEFAULT_COUNT, Filters, filtersInitialState } from '~/constants/filter'
 import { ResponseDataType } from '~/types/data'
 import { generateAPIParams, parseFiltersFromQuery } from '~/utils'
 
@@ -24,6 +19,9 @@ const useFetchCourseList = () => {
       : filtersInitialState
   )
 
+  const [offset, setOffset] = useState(1)
+  const scrollToStartRef = useRef<HTMLDivElement | null>(null)
+
   useEffect(() => {
     const loadCourseList = async () => {
       const apiParams = generateAPIParams(filters, categoriesObject)
@@ -32,7 +30,7 @@ const useFetchCourseList = () => {
         setIsLoading(true)
         const data = await fetchCourseList(
           apiParams,
-          DEFAULT_OFFSET,
+          20 * (offset - 1),
           DEFAULT_COUNT
         )
         setCourseList(data)
@@ -46,9 +44,21 @@ const useFetchCourseList = () => {
     }
 
     loadCourseList()
+  }, [filters, offset])
+
+  useEffect(() => {
+    setOffset(1)
   }, [filters])
 
-  return { courseList, isLoading, error, setFilters }
+  return {
+    courseList,
+    isLoading,
+    error,
+    offset,
+    scrollToStartRef,
+    setFilters,
+    setOffset
+  }
 }
 
 export default useFetchCourseList

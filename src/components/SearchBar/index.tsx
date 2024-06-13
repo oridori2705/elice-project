@@ -13,17 +13,17 @@ import {
 } from './styled'
 
 interface SearchBarProps {
-  setFilter: (filters: Filters | ((prevFilters: Filters) => Filters)) => void
+  setFilters: (filters: Filters | ((prevFilters: Filters) => Filters)) => void
 }
 
-const SearchBar = ({ setFilter }: SearchBarProps) => {
+const SearchBar = ({ setFilters }: SearchBarProps) => {
   const [searchParams, setSearchParams] = useSearchParams()
   const keyword = searchParams.get('keyword') || ''
 
   const handleChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value
 
-    setFilter(prevState => {
+    setFilters(prevState => {
       const result = { ...prevState, ['keyword']: query }
       return result
     })
