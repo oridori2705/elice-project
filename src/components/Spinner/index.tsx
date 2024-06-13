@@ -10,10 +10,9 @@ const spinning = keyframes`
     }
 `
 const Loader = styled.div`
-  width: 60px;
-  height: 60px;
-  border: 3px solid;
-  /* 투명하게 */
+  width: 92px;
+  height: 92px;
+  border: 3px solid rgb(82, 79, 161);
   border-top-color: transparent;
   border-radius: 50%;
   box-sizing: border-box;
@@ -21,7 +20,6 @@ const Loader = styled.div`
 `
 
 const LoaderWrapper = styled.div`
-  margin: 0 auto;
   position: absolute;
   top: 50%;
   left: 50%;

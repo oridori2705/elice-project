@@ -1,7 +1,6 @@
 import styled from '@emotion/styled'
 
 const NoResultFoundWrapperDiv = styled.div`
-  margin: 0 auto;
   position: absolute;
   top: 50%;
   left: 50%;
