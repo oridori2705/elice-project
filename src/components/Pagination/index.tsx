@@ -37,24 +37,29 @@ const Pagination = ({
 
   const totalPages = Math.ceil(totalItems / itemsPerPage)
   const pagesToShow = 5
-
   const halfPagesToShow = Math.floor(pagesToShow / 2)
-  let startPage = Math.max(currentOffset - halfPagesToShow, 1)
-  let endPage = Math.min(currentOffset + halfPagesToShow, totalPages)
 
-  if (currentOffset <= halfPagesToShow) {
-    endPage = Math.min(pagesToShow, totalPages)
+  const calculateStartPage = () => {
+    if (currentOffset <= halfPagesToShow) {
+      return 1
+    }
+    if (currentOffset + halfPagesToShow > totalPages) {
+      return Math.max(totalPages - pagesToShow + 1, 1)
+    }
+    return Math.max(currentOffset - halfPagesToShow, 1)
   }
 
-  if (currentOffset + halfPagesToShow > totalPages) {
-    startPage = Math.max(totalPages - pagesToShow + 1, 1)
+  const calculateEndPage = (startPage: number) => {
+    return Math.min(startPage + pagesToShow - 1, totalPages)
   }
 
-  const pages = []
-  for (let i = startPage; i <= endPage; i++) {
-    pages.push(i)
-  }
+  const startPage = calculateStartPage()
+  const endPage = calculateEndPage(startPage)
 
+  const pages = Array.from(
+    { length: endPage - startPage + 1 },
+    (_, i) => startPage + i
+  )
   return (
     <PaginationWrapperDiv>
       <PaginationContainerDiv>
