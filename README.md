@@ -176,3 +176,128 @@
 <img src="https://i.ibb.co/418DBWP/saf-fasfsafas.png"/>
 
 </details>
+
+<details>
+<summary style="font-size: 17px; font-weight: 600; background-color: rgba(115, 83, 234,0.2);">✨5. SearchBar 컴포넌트 구현 및 검색 기능 구현</summary>
+
+- 🔗[PR](https://github.com/oridori2705/elice-project/pull/10)
+
+### 🛠️ SearchBar 컴포넌트 구현
+
+![image](https://github.com/oridori2705/elice-project/assets/90139306/e722d0f7-8812-45fc-9b64-b5f1bf743d2e)
+
+- 상위에서 filters값을 변경하는 setFilters 함수를 props로 받음
+- 검색어를 입력하면 setFilters 함수를 실행해서 API 요청 
+
+
+### 🛠️ 검색 기능 구현
+
+- setFilters로 하위에서 검색어를 받아오면 해당 데이터를 API 파라미터에 `{title: `%${검색어} %`}` 형식으로 가공 후 전달
+- ```
+   else if (key === 'keyword') {
+      apiParams['$and'][0].title = `%${values}%`
+    }
+  ```
+- 검색 기능에 디바운스 기법 추가
+- 검색 시 url query에 해당 검색어 저장 -> 새로고침 시 유지되도록하는 기능 구현
+- 기존 filters 구조에 "keyword" 데이터 추가
+- ```
+  export interface Filters {
+    category: number[]
+    courseType: number[]
+    format: number[]
+    level: number[]
+    price: number[]
+    programmingLanguage: number[]
+    keyword?: string
+  }
+  ```
+
+
+### 🚧 특이 사항
+
+- filter에 "keyword"타입 추가로 인해 setFilter 함수를 사용하는 chip 컴포넌트에서 타입 에러 발생
+  - 조건문 추가해 타입 좁히기로 해결
+
+-  Loding중일 때 조건부 렌더링으로 Spinner 컴포넌트가 나타나면 카드 리스트가 사라졌다가 생기는 부분이 좋지 않은 사용자 경험을 줄 수 있지 않을까 예상함
+  -  Loading을 조건부 렌더링에서 제외해서 필터값이 바뀌어도 깜빡하는 현상 해결
+  - Spinner는 로딩 중을 화면에서 표현하기만 함
+
+- 검색어를 입력한 후에 지우면 url query에 `빈 값`으로 존재하고 있음
+  - 예제 사이트도 검색어를 입력 후 지우면 url query에 동일하게 존재함
+  - 일단 중요한 부분이 아님을 판단했지만 이후 없앨 수도 있도록 계획
+ 
+
+### 📜관계도 정리
+![image](https://github.com/oridori2705/elice-project/assets/90139306/1f7aaba4-7d88-41ee-8062-e596c020e9fc)
+
+
+</details>
+
+
+<details>
+<summary style="font-size: 17px; font-weight: 600; background-color: rgba(115, 83, 234,0.2);">✨6. Pagination 컴포넌트 구현 및 페이지네이션 기능 구현</summary>
+
+- 🔗[PR](https://github.com/oridori2705/elice-project/pull/12)
+
+### 🛠️ Pagination 컴포넌트 구현
+
+#### ✨페이지네이션의 숫자 나열을 위해 조건을 나열하면서 예외상황을 확인함
+
+- `전체 페이지 수 = 전체 코스 개수 / 한 페이지 당 보여지는 코스 개수`
+- 현재 보여질 페이지를 계산한다( 최대 `5`개가 보여져야 함)
+  - 보여질 페이지 번호의 반값 계산 = `Math.floor( 5 / 2 )`
+  - `보여질 시작 페이지 번호 =  Math.max(현재 페이지 번호  - Math.floor( 5 / 2 ) , 1)`
+      - Math.max를 한 이유는 최소 값이 1이기 때문입니다.
+  - `보여질 마지막 페이지 번호 =  Math.min(현재 페이지 번호 + Math.floor( 5 / 2 ) , 전체 페이지 수)`
+      - Math.min을 한 이유는 최대 값이 `전체 페이지 수` 이기 때문입니다.
+
+- 이때 `보여질 시작 페이지가` 1일 때( `보여질 페이지의 반값`보다 작거나 같을 경우)  `보여질 마지막 페이지`를 조정해줘야 합니다.
+   -  예를 들어 1또는 2라면 endPage가 3또는 4가 되어버리는데 페이지가 더 있다면 5까지는 보여줘야 한다.
+   -  그러면 5는 최소로 맞춰줘야 한다.
+   - 또한 `전체 페이지 수`가 `보여질 페이지 번호의 반값`보다 작을 때도 생각해야 합니다.
+   - 예를 들어 `전체 페이지 수`가 3인데 5페이지를 보여줄 수는 없습니다.
+
+- 마찬가지로 `보여질 마지막 페이지`에서도 만약 `전체 페이지 수`에 가깝다면 `보여질 시작 페이지`를 조정해줘야 한다.
+  - 예를 들어 `전체 페이지 수`가 10이고, `현재 페이지`가 9면 `보여질 시작 페이지`는 6 이어야 합니다. (10 - 5 + 1 =6) 
+  - 또한 만약에 `전체 페이지 수`가 3이고, `현재 페이지`가 2면 `보여질 시작 페이지`는 1이어야 합니다. (시작 페이지는 1이 마지노선)
+  - 그러므로 1 이하로 내려가지 않도록 최소 값을 1로 고정해줘야 합니다.
+
+<hr/>
+
+#### ✨상태 관리를 상위에서 관리
+
+- 상위에서 Pagination의 값과 현재 offset값을 관리하는 state를 정의
+- 해당 상태는 `1, 2, 3, 4...` 로 증가함
+- offset에 넘겨줄 때 `20 * ( x -1 )` 로 계산 후에 넘겨줌
+- 해당 상태가 현재 페이지 단위임  ex) 1페이지, 2페이지...
+
+
+### 🛠️ 페이지네이션 기능 시 스크롤 이동 기능 구현
+
+- 기존에는 상위에서 `useLayoutEffect`를 이용해 `offset`값이 바뀔 때마다 스크롤 이동을 수행하도록 함
+- 하지만 페이지네이션 기능 이후 필터 기능을 작동 시 최초 한번 불필요한 스크롤 이동이 발생
+- 이는 필터 값이 바뀌면 무조건 `offset` 값이 1부터 시작되도록 하는 로직으로 인해 생김
+- 그래서 페이지네이션 부분의 클릭 이벤트가 수행될 때 스크롤 이동이 수행되도록 수정함
+- 즉 상위에서 진행하던 스크롤 이동을 하위 컴포넌트가 수행하도록 지정함
+- **이 과정에서 Pagination 컴포넌트가 스크롤 이동에 필요한 값들에 의존이 되지는 않을까 고민하게 됨**
+
+
+### 🚧 특이 사항
+
+- set함수의 타입에 대한 고민
+  - 기존에는 () => void 와 같은 형식으로 작성함
+  - 하지만  Dispatch와 setStateAction을 통해 setState 함수의 타입을 정의해주면 상태 업데이트 필요 시 요구하는 인자와 반환 값을 정확하게 명시할 수 있음을 인지함
+  -  Dispatch와 setStateAction 타입 사용을 지향
+  - `setFilters: Dispatch<SetStateAction<Filters>>` 이나 `setOffset: Dispatch<SetStateAction<number>>` 와 같이 코드 구성
+
+- scrollIntoView({behavior: 'smooth'})기능이 크롬에서 작동을 안하는 문제 발견 후 해당 기능 사용 제거
+- useRef 타입에 대한 3가지 종류를 알게 됨
+  -  해당 [링크](https://driip.me/7126d5d5-1937-44a8-98ed-f9065a7c35b5)를 보고 타입을 지정할 때 생각하고 지정할 수 있게 됨
+
+### 📜관계도 정리
+
+![image](https://github.com/oridori2705/elice-project/assets/90139306/abbb39df-8b92-4afb-a509-4afab6f3a24d)
+
+
+</details>
