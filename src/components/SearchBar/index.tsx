@@ -1,4 +1,4 @@
-import { ChangeEvent } from 'react'
+import { ChangeEvent, memo } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
 import useDebounce from '~/hooks/useDebounce'
@@ -57,4 +57,5 @@ const SearchBar = ({ updateKeyword }: SearchBarProps) => {
     </SearchBarWrapperDiv>
   )
 }
-export default SearchBar
+const MemoizedSearchBar = memo(SearchBar)
+export default MemoizedSearchBar

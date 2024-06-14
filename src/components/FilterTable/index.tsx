@@ -1,3 +1,4 @@
+import { memo } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
 import {
@@ -48,4 +49,5 @@ const FilterTable = ({
     </TableContainer>
   )
 }
-export default FilterTable
+const MemoizedFilterTable = memo(FilterTable)
+export default MemoizedFilterTable

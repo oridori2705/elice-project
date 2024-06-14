@@ -1,4 +1,4 @@
-import { MutableRefObject } from 'react'
+import { memo, MutableRefObject } from 'react'
 
 import {
   PaginationContainerDiv,
@@ -102,5 +102,5 @@ const Pagination = ({
     </PaginationWrapperDiv>
   )
 }
-
-export default Pagination
+const MemoizedPagination = memo(Pagination)
+export default MemoizedPagination

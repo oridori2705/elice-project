@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 
 import { fetchCourseList } from '~/api'
@@ -22,28 +22,31 @@ const useFetchCourseList = () => {
   const [offset, setOffset] = useState(1)
   const scrollToStartRef = useRef<HTMLDivElement | null>(null)
 
-  const toggleFilterValue = (type: keyof Filters, value: number) => {
-    setFilters(prevState => {
-      if (type === 'keyword') return prevState
-      const newValues = prevState[type].includes(value)
-        ? prevState[type].filter(item => item !== value)
-        : [...prevState[type], value]
-      const result = { ...prevState, [type]: newValues }
+  const toggleFilterValue = useCallback(
+    (type: keyof Filters, value: number) => {
+      setFilters(prevState => {
+        if (type === 'keyword') return prevState
+        const newValues = prevState[type].includes(value)
+          ? prevState[type].filter(item => item !== value)
+          : [...prevState[type], value]
+        const result = { ...prevState, [type]: newValues }
 
-      return result
-    })
-  }
+        return result
+      })
+    },
+    []
+  )
 
-  const updateKeyword = (keyword: string) => {
+  const updateKeyword = useCallback((keyword: string) => {
     setFilters(prevState => ({
       ...prevState,
       keyword
     }))
-  }
+  }, [])
 
-  const updateOffset = (newOffset: number) => {
+  const updateOffset = useCallback((newOffset: number) => {
     setOffset(newOffset)
-  }
+  }, [])
 
   useEffect(() => {
     const loadCourseList = async () => {
