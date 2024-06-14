@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom'
 import { loadCourseList } from '~/api'
 import { Filters, filtersInitialState } from '~/constants/filter'
 import { ResponseDataType } from '~/types/data'
-import { parseFiltersFromQuery } from '~/utils'
+import { parseFiltersFromQuery } from '~/utils/paramsAndFiltersUtils'
 
 const useFetchCourseList = () => {
   const location = useLocation()

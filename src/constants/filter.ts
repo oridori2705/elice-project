@@ -19,3 +19,11 @@ export const filtersInitialState: Filters = {
   price: [],
   programmingLanguage: []
 }
+
+export const TagToFiledObject = {
+  programmer: '프로그래밍 기초',
+  dataScientist: '데이터 분석',
+  webDeveloper: '웹',
+  aiml: '인공지능',
+  algorithm: '알고리즘'
+}

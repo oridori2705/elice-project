@@ -4,7 +4,7 @@ import { categoriesObject } from '~/constants/course'
 import { Filters } from '~/constants/filter'
 import { ParameterRoot } from '~/types/api'
 import { ResponseDataType } from '~/types/data'
-import { generateAPIParams } from '~/utils'
+import { generateAPIParams } from '~/utils/apiParamsUtils'
 
 const baseURL = import.meta.env.VITE_API_BASE_URL
 

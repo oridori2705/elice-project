@@ -1,5 +1,12 @@
 import styled from '@emotion/styled'
 
+export interface CardImageProps {
+  isLogo: boolean
+  imgUrl: string
+}
+
+interface CardImageImgDivProps extends CardImageProps {}
+
 const CardImageWrapperDiv = styled.div`
   position: relative;
   min-width: auto;
@@ -16,13 +23,6 @@ const CardImageDiv = styled.div`
   align-items: center;
   justify-content: center;
 `
-
-export interface CardImageProps {
-  isLogo: boolean
-  imgUrl: string
-}
-
-interface CardImageImgDivProps extends CardImageProps {}
 
 const CardImageImg = styled.div<CardImageImgDivProps>`
   display: inline-block;

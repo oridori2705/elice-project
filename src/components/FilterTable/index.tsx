@@ -8,7 +8,7 @@ import {
 } from '~/constants/course'
 import { Filters } from '~/constants/filter'
 import { FilterKeys } from '~/types/data'
-import { parseQueryStringToArray } from '~/utils'
+import { parseQueryStringToArray } from '~/utils/paramsAndFiltersUtils'
 
 import Chip from '../Chip'
 import { StyledList, TableContainer, TableHeading, TableRow } from './styled'

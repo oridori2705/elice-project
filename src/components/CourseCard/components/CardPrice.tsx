@@ -1,6 +1,8 @@
 import styled from '@emotion/styled'
 
-interface CardPriceProps {
+import { getCardPriceText } from '~/utils/CourseCardFunction'
+
+export interface CardPriceProps {
   enroll_type: number
   is_free: boolean
   price: string
@@ -23,21 +25,6 @@ const CardPriceDiv = styled.div<CardPriceDivProps>`
   padding-top: 1rem;
   font-weight: 700;
 `
-const getCardPriceText = ({
-  enroll_type,
-  is_free,
-  price
-}: CardPriceProps): string => {
-  if (enroll_type === 0) {
-    return is_free ? '무료' : `₩${Number(price).toLocaleString()}`
-  } else if (enroll_type === 4) {
-    return '구독'
-  } else if (enroll_type === 5) {
-    return '관리자 등록'
-  }
-
-  return ''
-}
 
 export const CardPrice = ({ enroll_type, is_free, price }: CardPriceProps) => {
   const displayText = getCardPriceText({ enroll_type, is_free, price })
