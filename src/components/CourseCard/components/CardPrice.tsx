@@ -15,7 +15,11 @@ const CardPriceDiv = styled.div<CardPriceDivProps>`
   line-height: 1.5rem;
   border-top: 1px solid rgb(240, 241, 243);
   color: ${props =>
-    props.is_free ? '#00ab53;' : props.enroll_type === 0 ? '#222' : '#524fa1'};
+    props.enroll_type === 0 && props.is_free
+      ? '#00ab53'
+      : props.enroll_type === 0 && !props.is_free
+        ? '#222'
+        : '#524fa1'};
   padding-top: 1rem;
   font-weight: 700;
 `
