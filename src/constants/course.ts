@@ -1,3 +1,5 @@
+import { FilterKeys } from '~/types/data'
+
 interface CourseTypeData {
   course_type: number
 }
@@ -25,7 +27,7 @@ export interface CategoriesArray {
 export interface CategoryItem<T extends CategoryData> {
   id: number
   name: string
-  type: string
+  type: FilterKeys
   data: T[]
 }
 

@@ -7,7 +7,6 @@ import {
   CategoryItem
 } from '~/constants/course'
 import { Filters } from '~/constants/filter'
-import { FilterKeys } from '~/types/data'
 import { parseQueryStringToArray } from '~/utils/paramsAndFiltersUtils'
 
 import Chip from '../Chip'
@@ -32,7 +31,7 @@ const FilterTable = ({
               {values.map((value: CategoryItem<CategoryData>) => (
                 <Chip
                   key={value.id}
-                  filterType={value.type as FilterKeys}
+                  filterType={value.type}
                   innerText={value.name}
                   toggleFilterValue={toggleFilterValue}
                   filterId={value.id}
