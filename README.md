@@ -1,8 +1,12 @@
 # ✨엘리스 미니 프로젝트
 
-## ✅요구 사항
+🔗 [배포 링크](https://elice-project-six.vercel.app/)
 
-[구현 사이트](https://academy.elice.io/courses/all)를 보고 구현하기
+## ✅요구 사항
+![image](https://github.com/oridori2705/elice-project/assets/90139306/3bcc9b18-7121-4e32-9962-a367267aaf7c)
+
+
+[예제 사이트](https://academy.elice.io/courses/all)를 보고 구현하기
 
 - UI 구현
   - 기본적인 요구사항을 구현할 수 있는지 평가합니다.
@@ -18,6 +22,38 @@
   - 테스트코드를 효율적으로 잘 작성할 수 있는지 확인합니다. (유닛테스트,
     통합테스트등 테스트가 필요하다고 생각하는 로직에 테스트코드를 자유롭게
     작성하세요.)
+
+### Requirements
+- 필수 조건
+  - React 기반의 single page app (SPA) 를 만들어야 합니다.
+  - 명시되지 않은 디자인의 경우 위의 production link 를 참조하시거나 자유롭게
+구현하셔도 됩니다.
+  - 사용하는 library, 기술, 언어는 다음 제약 사항 외에는 React 생태계 내에서 자유롭게
+선택하시기 바랍니다.
+  - TypeScript 를 필수적으로 사용합니다.
+  - 디자인은 엘카데미(https://academy.elice.io/courses/all)에 구현된 페이지를
+모방하여 구현합니다.
+
+- Filter
+  - [무료], [유료] 를 모두 선택하거나 하나만 선택, 그리고 아예 선택하지 않을 수 있습니다.
+  - 필터는 filter_conditions 파라미터를 이용합니다.(JSON type)
+  - 브라우저를 새로고침을 하여도 선택된 필터가 유지될 수 있도록 url query 를
+사용합니다.
+    - 예: https://academy.elice.io/courses/all?keyword=c 언어&price=free&price=paid
+
+- Pagination
+  - 라이브러리를 쓰지 않고 직접 구현해야 합니다.
+  - 작동방식은 실제 프로덕션과 동일하게 동작해야합니다. 
+(arrow, 현재 페이지 유지 방법 등)
+  - 한 페이지당 최대 20 개의 코스 카드를 표시할 수 있도록 합니다.
+  - Page 의 이동 시 count 값을 20 으로 고정하고 offset 값을 변화시키면서 페이지를
+이동할 수 있습니다.
+  - 1 페이지: offset: 0, count: 20
+  - 2 페이지: offset: 20, count: 20
+
+
+- Api
+  - API 를 부르기 위해서 사용하는 ajax 라이브러리는 자유롭게 선택하시면 됩니다.
 
 ## 🤔해결 방식
 
@@ -163,6 +199,12 @@
 
   - Root 요소에 `min-height`를 부여해서 스크롤이 항상 있도록 하게 해서 문제 해결
   - 임시로 해결한 문제이므로 이후 로딩을 스피너가 아닌 `스켈레톤 UI 방식`을 활용하는 방법으로 문제 해결 계획
+  
+  https://github.com/oridori2705/elice-project/assets/90139306/ce8d2efb-39b3-4a79-a70a-84064e266436
+
+-> 가로로 떨리는 문제 영상
+
+<br/>
 
 - 스크롤 바 스타일링 추가
 
@@ -293,7 +335,12 @@
 
 - scrollIntoView({behavior: 'smooth'})기능이 크롬에서 작동을 안하는 문제 발견 후 해당 기능 사용 제거
 - useRef 타입에 대한 3가지 종류를 알게 됨
-  -  해당 [링크](https://driip.me/7126d5d5-1937-44a8-98ed-f9065a7c35b5)를 보고 타입을 지정할 때 생각하고 지정할 수 있게 됨
+  -  해당 [링크](https://driip.me/7126d5d5-1937-44a8-98ed-f9065a7c35b5)를 보고 타입을 지정할 때 생각하고 지정할 수 있게 
+
+- 현재 요구사항에는 실제 프로덕션과 동일하게 진행해야하고, 현재 페이지 유지 방법 등 이라고 작성되어있다.
+  - 실제 프로덕션에서는 페이지네이션에는 새로고침시 페이지 유지가 안되고 있다.
+  - 그래서 일단 페이지 유지는 제외.
+  - 결과적으로 실제 프로덕션과 동일하게 진행
 
 ### 📜관계도 정리
 
@@ -301,3 +348,96 @@
 
 
 </details>
+
+
+## ⚡ 기술 스택
+
+<table>
+    <thead>
+        <tr>
+            <th>분류</th>
+            <th>기술 스택</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                  <p>프론트엔드</p>
+            </td>
+            <td>
+                 <img src="https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=ffffff">
+                 <img src="https://img.shields.io/badge/ReactRouterDom-CA4245?style=flat-square&logo=react-router&logoColor=white"/>
+                 <img src="https://img.shields.io/badge/Emotion-DB7093?style=flat-square&logo=styled-components&logoColor=white"/>
+                  <img src="https://img.shields.io/badge/React-61DAFB?style=flat-square&logo=React&logoColor=black"/> 
+                 <img src="https://img.shields.io/badge/Vite-646CFF?style=flat-square&logo=Vite&logoColor=white"/>
+            </td>
+        </tr>
+          <tr>
+            <td>
+                <p>배포</p>
+            </td>
+            <td>
+                <img src="https://img.shields.io/badge/Vercel-000000?style=flat-square&logo=Vercel&logoColor=white"/>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+```
+  "dependencies": {
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.5",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.23.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.66",
+    "@types/react-dom": "^18.2.22",
+    "@typescript-eslint/eslint-plugin": "^7.13.0",
+    "@typescript-eslint/parser": "^7.13.0",
+    "@vitejs/plugin-react-swc": "^3.5.0",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-import-resolver-typescript": "^3.6.1",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-prettier": "^5.1.3",
+    "eslint-plugin-react": "^7.34.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.6",
+    "eslint-plugin-simple-import-sort": "^12.1.0",
+    "prettier": "^3.3.2",
+    "typescript": "^5.2.2",
+    "vite": "^5.2.0"
+  }
+```
+
+## 📹 기능 영상
+
+### 🌪️ 필터 기능
+
+https://github.com/oridori2705/elice-project/assets/90139306/67b6b894-f5e5-4ded-965f-806872383b25
+
+
+
+### 🔍 검색 기능
+
+
+
+
+https://github.com/oridori2705/elice-project/assets/90139306/8444d9d7-e749-4a30-b519-fd9bfa6289b6
+
+
+
+
+### 👀 페이지네이션 기능
+
+
+
+https://github.com/oridori2705/elice-project/assets/90139306/f1106772-1940-48e0-a413-fb2cd8190361
+
+
+
+## 🤔 고민되거나 어려웠던 점
+
+
