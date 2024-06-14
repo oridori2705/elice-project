@@ -365,6 +365,9 @@
 
 ## ⚡ 기술 스택
 
+> 외부 라이브러리를 최소화해서 사용하려고 했습니다. 미니프로젝트인 만큼 과도한 외부 라이브러리 사용은 좋지 않다고 개인적으로 생각해봤습니다.
+
+
 <table>
     <thead>
         <tr>
@@ -452,5 +455,142 @@ https://github.com/oridori2705/elice-project/assets/90139306/f1106772-1940-48e0-
 
 
 ## 🤔 고민되거나 어려웠던 점
+<details> 
+<summary>⚡ API 응답 데이터에서 필요한 데이터를 구분해서 좁혀야 할 때가 있었는데 그 때 생기는 타입에러에 대해서 고민이 있었습니다.</summary>
+  
+- 예를들어 필터 데이터는 약 30여개가 있었는데 그 중에서 과목 카드 요소에 출력할 대분류 부분만 출력해야했던 경우가 있었습니다.
+- ![image](https://github.com/oridori2705/elice-project/assets/90139306/413598d3-10ea-4a36-8318-bbd62d255e0f)
+- 이때 `사용자 정의 타입 가드`를 사용해보았습니다.
+- ```
+  function isCardTagNameType(value: TagName): value is CardTagNameType {
+    return [
+      'programmer',
+      'dataScientist',
+      'webDeveloper',
+      'aiml',
+      'algorithm'
+    ].includes(value)
+  }
+  ```
+- 위 같은 경우 특정 값이 특정 문자열 집합에 포함되는지를 검사하는 로직을 포함해야 했습니다.
+- typeof나 intanceof를 이용하는 간단한 상황만 경험했어서 사용자 정의 타입가드를 사용해본 적이 없었는데 이번 과제를 통해 처음 사용해볼 수 있었습니다.
+</details>
 
+<br/>
+
+<details> 
+<summary>⚡ 과연 비즈니스 로직을 상위에서 모아서 처리하는 것이 옳은 것일까? 에 대해 고민했습니다.</summary>
+  
+- 저는 `상위에서 모든 상태를 관리`하고 `서버에서 데이터 요청하는 로직` 또한 상위에서 담당하도록 했습니다.
+- 이를 통해서 `상태 관리가 용이`했고, 하위 컴포넌트에서는 단일 책임만을 가질 수 있게 되었습니다.
+- 하지만 상위에서 모든 상태를 관리하다 보니 `너무 과도하게 역할을 수행`하는 것이 아닐까? 라는 생각이 들었습니다.
+- 지금은 미니 프로젝트이므로 이러한 설계가 괜찮을 것 같았지만 만약에 아주 많은 상태와 비즈니스 로직을 사용해야한다면 과연 상위에서 이를 부담하는 것이 옳을까? 어떻게 해결할 수 있을까에 대해서 생각하게 되었습니다.
+- 해결 방법으로는 `상태 관리 라이브러리 활용`을 생각해보았습니다.
+- 복잡하거나 관리해야할 상태가 많아지면 상위에서 관리하는 것이 아닌 `상태 관리 라이브러리` 활용을 해야할 것 같다고 생각했습니다.
+- 일단 현재 과제는 미니 프로젝트 이므로 `상태 관리 라이브러리`는 사용하지 않았습니다.
+
+</details>
+
+
+<br/>
+
+<details>   
+<summary>⚡ 상위에서 상태를 관리하고, 하위 컴포넌트에게 set함수를 props로 내려주는 것에 대해서 과연 옳은 방식일까? 에 대해 고민했습니다.</summary>
+  
+- 이를 통해서 개발자의 입장에서는 아주 간단하게 기능을 구현할 수 있었습니다.
+- 그렇지만 이러한 방식이 과연 옳은 방식일까? 에 대해서 고민하게 되었습니다.
+- 관련 학습 자료를 찾으면서 이러한 방식을 바꾸기로 결정했습니다. [관련 PR](https://github.com/oridori2705/elice-project/pull/16)
+- 이를 통해서 컴포넌트들이 좀 더 독립성이 높아졌고, 각 컴포넌트는 그저 함수를 호출하기만 하면 되기 때문에 재사용성이 높아졌습니다. -> 내부에서 복잡한 로직을 수행할 필요가 없어졌습니다.
+  <details>
+  <summary>👀 실제 예시 보기</summary>
+  
+  > 필터 테이블에서 하나의 필터를 한 번 클릭한 상황입니다.
+  
+  ##  🥲 최적화 미 적용 시 렌더링
+  
+  ![image](https://github.com/oridori2705/elice-project/assets/90139306/5a327876-a29a-4d72-a295-75e9ee817844)
+  
+  
+  ##  😁 최적화 적용 시 렌더링
+  
+  ![image](https://github.com/oridori2705/elice-project/assets/90139306/e5a9393e-92d0-4f61-b991-755c1af64786)
+  
+  ### 📄 예시 설명
+  - 현재 회색 부분으로 된 것이 렌더링 되지 않았다는 의미입니다.
+  - 최적화 미적용시에는 3번의 렌더링에서 모든 컴포넌트가 렌더링 되고 있습니다.
+  - 하지만 최적화 적용 이후에는 각 컴포넌트가 불필요한 상황에는 렌더링 되지 않고 있습니다.
+  
+  </details>
+</details>
+
+<br/>
+
+
+<details>   
+<summary>⚡ 디바운스 함수를 useEffect로 구현하는 로직이 좋을까? 아니면 기본적인 로직으로로 구현한 로직이 좋을까? 에 대해 고민했습니다.</summary>
+  
+  - useEffect를 이용해서 디바운스 기법을 사용하는 방법이 있고, 기존에 제가 사용하던 기본적인 함수로 구현한 디바운싱 기법이 좋을까? 에 대해 고민했습니다.
+  - useEffect를 사용한 방법은 코드가 더욱 리액트스러워서 보기가 좋았습니다.
+  - ```
+      function useDebounce(value, delay) {
+        const [debouncedValue, setDebouncedValue] = useState(value);
+      
+        useEffect(() => {
+          const timer = setTimeout(() => {
+            setDebouncedValue(value);
+          }, delay);
+      
+          return () => {
+            clearTimeout(timer);
+          };
+        }, [value, delay]);
+      
+        return debouncedValue;
+      }
+    
+    export default useDebounce;
+    ```
+  - 제가 기존에 사용하던 디바운스 함수는 재사용성은 높지만 한번에 보기 어려울 수 있었습니다.
+  - ```
+      import { useRef } from 'react'
+  
+      const useDebounce = <T extends (...args: any[]) => void>(
+        fn: T,
+        delay: number
+      ) => {
+        const timeout = useRef<ReturnType<typeof setTimeout> | null>(null)
+      
+        return (...args: Parameters<T>): void => {
+          if (timeout.current) clearTimeout(timeout.current)
+          timeout.current = setTimeout(() => {
+            fn(...args)
+          }, delay)
+        }
+      }
+      
+      export default useDebounce
+    ```
+  - 하지만 타입스크립트에서 사용하기 용이하고, 재사용성이 높은 기존 함수를 채택했습니다.
+  - 그리고 기존에 let으로 사용하던 부분을 `useRef`를 사용해 리액트에서의 이점을 활용했습니다.
+
+</details>
+
+<br/>
+
+<details>   
+<summary>⚡타입 단언 as 키워드를 사용할 수 밖에 없는 것인가? 에 대해 고민했습니다.</summary>
+  
+  - [관련 PR](https://github.com/oridori2705/elice-project/pull/20)
+  
+### 🚨 타입 단언을 사용하기보다 사용하는 데이터의 타입을 넓은 타입으로 지정하지는 않았는지 확인
+![image](https://github.com/oridori2705/elice-project/assets/90139306/0e8f1d56-0552-4814-bcfc-24946c592982)
+
+### 🚨 API 응답 데이터를 잘 확인하고 타입을 정의할 때 겹치지 않도록 주의
+
+![image](https://github.com/oridori2705/elice-project/assets/90139306/97e6f336-f2f1-4196-a1c6-75bbb6236cc7)
+
+- 이 경우에는 되도록이면 타입을 상속받아 활용하는 방식을 더 잘 사용해야겠다고 생각이 들었습니다.
+- 복잡한 데이터들의 타입을 정의할 때는 이러한 상황도 예상해야 한다고 생각했습니다.
+
+</details>
 
