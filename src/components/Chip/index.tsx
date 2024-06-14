@@ -2,7 +2,7 @@ import { useSearchParams } from 'react-router-dom'
 
 import { Filters } from '~/constants/filter'
 import { FilterKeys } from '~/types/data'
-import { updateQueryParam } from '~/utils'
+import { updateQueryParam } from '~/utils/apiParamsUtils'
 
 import { ChipButton } from './styled'
 

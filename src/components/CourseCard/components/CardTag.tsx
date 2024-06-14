@@ -1,17 +1,10 @@
 import styled from '@emotion/styled'
 
-import { CardTagNameType, Tag, TagName } from '~/types/data'
+import { Tag } from '~/types/data'
+import { getDisplayText } from '~/utils/CourseCardFunction'
 
 interface CardTagProps {
   tag: Tag[]
-}
-
-const TagToFiledObject = {
-  programmer: '프로그래밍 기초',
-  dataScientist: '데이터 분석',
-  webDeveloper: '웹',
-  aiml: '인공지능',
-  algorithm: '알고리즘'
 }
 
 const CardTagWrapperDiv = styled.div`
@@ -26,32 +19,6 @@ const CardTagWrapperDiv = styled.div`
   color: #524fa1;
   font-weight: 700;
 `
-
-const isCardTagNameType = (value: TagName): value is CardTagNameType => {
-  return [
-    'programmer',
-    'dataScientist',
-    'webDeveloper',
-    'aiml',
-    'algorithm'
-  ].includes(value)
-}
-const getDisplayText = (tagArray: Tag[]): string => {
-  const categorizedTags = tagArray
-    ? tagArray
-        .filter(data => data.tag_type === 3)
-        .map(data => data.name)
-        .filter(isCardTagNameType)
-    : []
-
-  if (categorizedTags.length === 0) {
-    return '미분류'
-  }
-
-  const designatedFiled = categorizedTags.map(data => TagToFiledObject[data])
-
-  return designatedFiled.join(', ')
-}
 
 export const CardTag = ({ tag }: CardTagProps) => {
   const displayText = getDisplayText(tag)
