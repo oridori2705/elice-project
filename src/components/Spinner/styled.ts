@@ -10,8 +10,8 @@ export const spinning = keyframes`
     }
 `
 export const Loader = styled.div`
-  width: 92px;
-  height: 92px;
+  width: 40px;
+  height: 40px;
   border: 3px solid rgb(82, 79, 161);
   border-top-color: transparent;
   border-radius: 50%;
@@ -20,7 +20,7 @@ export const Loader = styled.div`
 `
 
 export const LoaderWrapper = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
+  position: fixed;
+  bottom: 5%;
+  right: 5%;
 `
