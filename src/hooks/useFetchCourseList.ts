@@ -22,6 +22,29 @@ const useFetchCourseList = () => {
   const [offset, setOffset] = useState(1)
   const scrollToStartRef = useRef<HTMLDivElement | null>(null)
 
+  const toggleFilterValue = (type: keyof Filters, value: number) => {
+    setFilters(prevState => {
+      if (type === 'keyword') return prevState
+      const newValues = prevState[type].includes(value)
+        ? prevState[type].filter(item => item !== value)
+        : [...prevState[type], value]
+      const result = { ...prevState, [type]: newValues }
+
+      return result
+    })
+  }
+
+  const updateKeyword = (keyword: string) => {
+    setFilters(prevState => ({
+      ...prevState,
+      keyword
+    }))
+  }
+
+  const updateOffset = (newOffset: number) => {
+    setOffset(newOffset)
+  }
+
   useEffect(() => {
     const loadCourseList = async () => {
       const apiParams = generateAPIParams(filters, categoriesObject)
@@ -56,8 +79,9 @@ const useFetchCourseList = () => {
     error,
     offset,
     scrollToStartRef,
-    setFilters,
-    setOffset
+    toggleFilterValue,
+    updateOffset,
+    updateKeyword
   }
 }
 

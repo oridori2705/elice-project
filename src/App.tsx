@@ -23,8 +23,9 @@ function App() {
     error,
     offset,
     scrollToStartRef,
-    setOffset,
-    setFilters
+    toggleFilterValue,
+    updateOffset,
+    updateKeyword
   } = useFetchCourseList()
 
   const renderContent = () => {
@@ -38,7 +39,7 @@ function App() {
             scrollToStartRef={scrollToStartRef}
             currentOffset={offset}
             totalItems={courseList?.course_count}
-            setOffset={setOffset}
+            updateOffset={updateOffset}
           />
         </>
       )
@@ -50,8 +51,8 @@ function App() {
   return (
     <RootDiv>
       <div ref={scrollToStartRef} />
-      <SearchBar setFilters={setFilters} />
-      <FilterTable setFilters={setFilters} />
+      <SearchBar updateKeyword={updateKeyword} />
+      <FilterTable toggleFilterValue={toggleFilterValue} />
       {renderContent()}
       {isLoading && <Spinner />}
     </RootDiv>

@@ -13,9 +13,9 @@ import Chip from '../Chip'
 import { StyledList, TableContainer, TableHeading, TableRow } from './styled'
 
 const FilterTable = ({
-  setFilters
+  toggleFilterValue
 }: {
-  setFilters: (filters: Filters | ((prevFilters: Filters) => Filters)) => void
+  toggleFilterValue: (type: keyof Filters, value: number) => void
 }) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [searchParams, _] = useSearchParams()
@@ -33,7 +33,7 @@ const FilterTable = ({
                   key={value.id}
                   filterType={value.type as FilterKeys}
                   innerText={value.name}
-                  setFilters={setFilters}
+                  toggleFilterValue={toggleFilterValue}
                   filterId={value.id}
                   isClicked={
                     isClickedParams[value.type] &&
