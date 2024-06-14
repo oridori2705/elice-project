@@ -1,6 +1,19 @@
 # ✨엘리스 미니 프로젝트
 
 🔗 [배포 링크](https://elice-project-six.vercel.app/)
+<details>
+<summary>🚨 모바일 환경으로 접속하면 CORS에러 발생으로 접속불가합니다!</summary>
+
+- chrome://inspect/#devices 를 이용해서 모바일과 PC를 USB로 연결한 뒤 디버깅 모드로 수행
+- 아래와 같은 오류 발생
+![image](https://github.com/oridori2705/elice-project/assets/90139306/3051c587-4dc1-4de4-bf05-911c4e6ed6d1)
+
+- 현재 CORS에러로 인한 문제로 인지하고 있음
+  ![image](https://github.com/oridori2705/elice-project/assets/90139306/cbce7f22-7693-4873-87e3-b45bc4b891a0)
+- `왜 PC환경에서는 가능하고 모바일 환경에서는 불가능할까?` 에 대해 자료를 찾고있음
+- User Agent의 차단 가능성
+
+</details>
 
 ## ✅요구 사항
 ![image](https://github.com/oridori2705/elice-project/assets/90139306/3bcc9b18-7121-4e32-9962-a367267aaf7c)
