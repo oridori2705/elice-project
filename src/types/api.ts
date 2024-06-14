@@ -10,5 +10,8 @@ export interface And {
 
 export interface Or {
   tag_id?: number
+  course_type?: number
+  enroll_type?: number
+  is_free?: boolean
   status?: number
 }

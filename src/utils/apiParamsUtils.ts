@@ -1,6 +1,6 @@
 import { Categories } from '~/constants/course'
 import { Filters } from '~/constants/filter'
-import { Or, ParameterRoot } from '~/types/api'
+import { ParameterRoot } from '~/types/api'
 
 /**
  * API 요청 시 추가할 파라미터와 기본 파라미터를 합쳐주는 함수
@@ -23,7 +23,7 @@ export const generateAPIParams = (
   Object.entries(filterData).forEach(([key, values]) => {
     if (Array.isArray(values) && values.length > 0) {
       const orCondition = values.map(
-        (value: number) => categoriesObject[value].data as Or
+        (value: number) => categoriesObject[value].data
       )
       apiParams['$and'].push({ $or: orCondition.flat() })
     } else if (key === 'keyword') {
