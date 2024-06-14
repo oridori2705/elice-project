@@ -1,7 +1,6 @@
-import { ChangeEvent } from 'react'
+import { ChangeEvent, memo } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
-import { Filters } from '~/constants/filter'
 import useDebounce from '~/hooks/useDebounce'
 
 import {
@@ -13,20 +12,17 @@ import {
 } from './styled'
 
 interface SearchBarProps {
-  setFilters: (filters: Filters | ((prevFilters: Filters) => Filters)) => void
+  updateKeyword: (keyword: string) => void
 }
 
-const SearchBar = ({ setFilters }: SearchBarProps) => {
+const SearchBar = ({ updateKeyword }: SearchBarProps) => {
   const [searchParams, setSearchParams] = useSearchParams()
   const keyword = searchParams.get('keyword') || ''
 
   const handleChange = async (e: ChangeEvent<HTMLInputElement>) => {
     const query = e.target.value
 
-    setFilters(prevState => {
-      const result = { ...prevState, ['keyword']: query }
-      return result
-    })
+    updateKeyword(query)
     searchParams.set('keyword', query)
     setSearchParams(searchParams)
   }
@@ -61,4 +57,5 @@ const SearchBar = ({ setFilters }: SearchBarProps) => {
     </SearchBarWrapperDiv>
   )
 }
-export default SearchBar
+const MemoizedSearchBar = memo(SearchBar)
+export default MemoizedSearchBar

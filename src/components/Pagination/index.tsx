@@ -1,4 +1,4 @@
-import { Dispatch, MutableRefObject, SetStateAction } from 'react'
+import { memo, MutableRefObject } from 'react'
 
 import {
   PaginationContainerDiv,
@@ -15,7 +15,7 @@ interface PaginationProps {
   itemsPerPage?: number
   currentOffset: number
   scrollToStartRef: MutableRefObject<HTMLDivElement | null>
-  setOffset: Dispatch<SetStateAction<number>>
+  updateOffset: (currentPage: number) => void
 }
 interface HandlePageChangeParams {
   currentPage: number
@@ -27,7 +27,7 @@ const Pagination = ({
   itemsPerPage = 20,
   currentOffset,
   scrollToStartRef,
-  setOffset
+  updateOffset
 }: PaginationProps) => {
   const handlePageChange = ({
     currentPage,
@@ -35,7 +35,7 @@ const Pagination = ({
   }: HandlePageChangeParams) => {
     if (!isActive) return
     scrollToStartRef.current?.scrollIntoView()
-    setOffset(currentPage)
+    updateOffset(currentPage)
   }
 
   const totalPages = Math.ceil(totalItems / itemsPerPage)
@@ -102,5 +102,5 @@ const Pagination = ({
     </PaginationWrapperDiv>
   )
 }
-
-export default Pagination
+const MemoizedPagination = memo(Pagination)
+export default MemoizedPagination

@@ -1,4 +1,3 @@
-import { Dispatch, SetStateAction } from 'react'
 import { useSearchParams } from 'react-router-dom'
 
 import { Filters } from '~/constants/filter'
@@ -8,7 +7,7 @@ import { updateQueryParam } from '~/utils'
 import { ChipButton } from './styled'
 
 interface ChipProps {
-  setFilters: Dispatch<SetStateAction<Filters>>
+  toggleFilterValue: (type: keyof Filters, value: number) => void
   innerText: string
   filterType: FilterKeys
   filterId: number
@@ -16,7 +15,7 @@ interface ChipProps {
 }
 
 const Chip = ({
-  setFilters,
+  toggleFilterValue,
   innerText,
   filterType,
   filterId,
@@ -25,16 +24,7 @@ const Chip = ({
   const [searchParams, setSearchParams] = useSearchParams()
 
   const handleButtonClick = (type: keyof Filters, value: number) => {
-    setFilters(prevState => {
-      if (type === 'keyword') return prevState
-      const newValues = prevState[type].includes(value)
-        ? prevState[type].filter(item => item !== value)
-        : [...prevState[type], value]
-      const result = { ...prevState, [type]: newValues }
-
-      return result
-    })
-
+    toggleFilterValue(type, value)
     const url = updateQueryParam(searchParams, type, value.toString())
     setSearchParams(url)
   }
